@@ -3,14 +3,38 @@ import React from 'react';
 class Form extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       value: 'Please write your terraform configuration here!',
-      uuid: "random_uuid"
+      uuid: this.uuidv4()
     };
 
     this.setCookie();
+    if (this.isShare()) {
+      this.setValueFromParam()
+    }
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  isShare() {
+    var param = window.location.search.substr(1);
+    console.log(param);
+    if (param !== "") {
+      return true
+    }
+    return false
+  }
+
+  setValueFromParam() {
+    var param = window.location.search.substr(1);
+    var keys = param.split("=");
+    console.log(keys)
+    var uuid = keys[1];
+    console.log(uuid);
+    //var value = PLAYGROUND_CONFIG.get(uuid)
+    //this.uuid = uuid;
   }
 
   setCookie() {
@@ -65,8 +89,11 @@ class Form extends React.Component {
       })
     })
     .then((response) => {
+      return response.json()
+    })
+    .then((responseData) => {
       console.log("OMAR RESPONSE");
-      console.log(response);
+      console.log(responseData);
     })
     .catch((error) => {
       console.log("OMAR ERROR");
@@ -76,12 +103,20 @@ class Form extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <textarea cols="100" rows="50" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <div className="App-form">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <textarea cols="100" rows="50" value={this.state.value} onChange={this.handleChange} />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+        <div className="App-output">
+          <p>Run: {this.runID}</p>
+          <p>Output: {this.outputs}</p>
+        </div>
+      </div>
     );
   }
 }

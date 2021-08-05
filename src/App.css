@@ -21,3 +21,9 @@
   position: absolute;
   left: 5%;
 }
+
+.App-output {
+  text-align: right;
+  position: absolute;
+  right: 30%;
+}

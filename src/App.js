@@ -8,7 +8,7 @@ function App() {
         <p>Terraform Playground</p>
       </header>
 
-      <div className="App-form">
+      <div>
         <Form />
       </div>
     </div>

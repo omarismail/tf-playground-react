@@ -27,7 +27,8 @@ const DEBUG = false
 
 async function handleEvent(event) {
   try {
-    return await getAssetFromKV(event);
+    const assets = await getAssetFromKV(event);
+    return assets
   } catch (e) {
     let pathname = new URL(event.request.url).pathname;
     return new Response(`"${pathname}" not found`, {
